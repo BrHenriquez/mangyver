@@ -10,6 +10,8 @@ import {
   INoticePayload,
   INoticenPayloadNewFormat,
   createnewNoticeFormat,
+  INoticeThirdParties,
+  createNoticeThirdParties
 } from "../repositories/notice.repository";
 
 @Route("notices")
@@ -78,6 +80,13 @@ export default class NoticeController {
     @Body() body: INoticenPayloadNewFormat
   ): Promise<Notice> {
     return createnewNoticeFormat(body);
+  }
+
+  @Post("/external-notice-consumers")
+  public async createNoticeThirdParties(
+    @Body() body: INoticeThirdParties
+  )/* : Promise<Notice> */ {
+    return createNoticeThirdParties(body);
   }
 
   @Put("/:id")
