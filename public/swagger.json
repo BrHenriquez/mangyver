@@ -1170,6 +1170,12 @@
 					"userUpdate": {
 						"$ref": "#/components/schemas/User"
 					},
+					"failureTimeStartDate": {
+						"type": "string"
+					},
+					"failureTimeStartTime": {
+						"type": "string"
+					},
 					"isActive": {
 						"type": "boolean"
 					},
@@ -1211,6 +1217,8 @@
 					"textSymptom",
 					"urlPhoto",
 					"userUpdate",
+					"failureTimeStartDate",
+					"failureTimeStartTime",
 					"isActive",
 					"created",
 					"updatedDate"
@@ -1291,6 +1299,12 @@
 					},
 					"textSymptom": {
 						"type": "string"
+					},
+					"failureTimeStartDate": {
+						"type": "string"
+					},
+					"failureTimeStartTime": {
+						"type": "string"
 					}
 				},
 				"required": [
@@ -1316,7 +1330,9 @@
 					"causeId",
 					"symptomId",
 					"textCause",
-					"textSymptom"
+					"textSymptom",
+					"failureTimeStartDate",
+					"failureTimeStartTime"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -1434,6 +1450,66 @@
 					"operation",
 					"textCause",
 					"textSymptom"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"INoticeThirdParties": {
+				"properties": {
+					"noticeType": {
+						"type": "string"
+					},
+					"codification": {
+						"type": "string"
+					},
+					"priority": {
+						"type": "string"
+					},
+					"repercussion": {
+						"type": "string"
+					},
+					"plannerGroup": {
+						"type": "string"
+					},
+					"equipment": {
+						"type": "string"
+					},
+					"technicalLocation": {
+						"type": "string"
+					},
+					"title": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					},
+					"objectPartText": {
+						"type": "string"
+					},
+					"symptomText": {
+						"type": "string"
+					},
+					"equipmentSet": {
+						"type": "string"
+					},
+					"operation": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"noticeType",
+					"codification",
+					"priority",
+					"repercussion",
+					"plannerGroup",
+					"equipment",
+					"technicalLocation",
+					"title",
+					"description",
+					"objectPartText",
+					"symptomText",
+					"equipmentSet",
+					"operation"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -3190,6 +3266,56 @@
 						"application/json": {
 							"schema": {
 								"$ref": "#/components/schemas/INoticePayload"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/notices/external-notice-consumers": {
+			"post": {
+				"operationId": "CreateNoticeThirdParties",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"msg": {
+											"type": "string"
+										},
+										"resData": {},
+										"reqData": {
+											"$ref": "#/components/schemas/INoticeThirdParties"
+										},
+										"status": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"msg",
+										"resData",
+										"reqData",
+										"status"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Notice"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/INoticeThirdParties"
 							}
 						}
 					}
