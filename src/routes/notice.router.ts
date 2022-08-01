@@ -168,6 +168,30 @@ router.post("/", async (req: any, res) => {
   return res.send(response);
 });
 
+router.post("/external-notice-consumers", async (req: any, res) => {
+  const headers = req.headers;
+  const token = headers.auth;
+  const decoded: object = jwt_decode(JSON.stringify(token));
+  const objectValues = Object.values(decoded);
+  const profile = await getUser(objectValues[0]);
+  req.body.operation = profile?.operation.id;
+
+  const userInfo = new UserInfo();
+  const user = await userInfo.getUserFromToken(req);
+  req.body.user = user.id;
+
+  try { 
+    const controller = new NoticeController();
+    const response = await controller.createNoticeThirdParties(req.body);
+    console.log(response);
+    
+    return res.send(response);
+  } catch (error: any) {
+    console.log(error)
+    return res.status(404).json({ error: error.message })
+  }
+});
+
 router.put("/:id", async (req, res) => {
   const controller = new NoticeController();
   const response = await controller.updateNotice(req.params.id, req.body);
