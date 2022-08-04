@@ -184,39 +184,39 @@ export const createNoticeThirdParties = async (
   let data: any = {}
 
   const processRepository = getRepository(Process)
-  const process = await processRepository.findOne({ where: { name: payload.noticeType, operation: payload.operation } }) 
-
-  if (!process) throw new Error(JSON.stringify({data:payload, msg:"noticeType not found"}));
+  const process = await processRepository.findOne({ where: { SAPCode: payload.noticeType, operation: payload.operation } }) 
   
+  if (!process) throw { data: payload, error: new Error(`noticeType: '${payload.noticeType}' not found`) }
+
   const cardRepository = getRepository(Card)
   const card = await cardRepository.findOne({ where: { name: payload.codification, operation: payload.operation } }) 
   
-  if (!card) throw new Error(JSON.stringify({data:payload, msg:"codification not found"}));
+  if (!card) throw { data: payload, error: new Error(`codification: '${payload.codification}' not found`) }
 
   const priorityRepository = getRepository(Priority)
-  const priority = await priorityRepository.findOne({ where: { name: payload.priority, operation: payload.operation } })
+  const priority = await priorityRepository.findOne({ where: { SAPCode: payload.priority, operation: payload.operation } })
   
-  if (!priority) throw new Error(JSON.stringify({data:payload, msg:"priority not found"}));
+  if (!priority) throw { data: payload, error: new Error(`priority: '${payload.priority}' not found`) }
 
   const affectRepository = getRepository(Affect)
-  const repercussion = await affectRepository.findOne({ where: { name: payload.repercussion, /* operation: payload.operation */ } })
+  const repercussion = await affectRepository.findOne({ where: { SAPCode: payload.repercussion, operation: payload.operation } })
 
-  if (!repercussion) throw new Error(JSON.stringify({data:payload, msg:"repercussion not foundr"}));
+  if (!repercussion) throw { data: payload, error: new Error(`repercussion: '${payload.repercussion}' not found`) }
 
   const typeFailRepository = getRepository(TypeFail)
-  const plannerGroup = await typeFailRepository.findOne({ where: { name: payload.plannerGroup, operation: payload.operation } })
+  const plannerGroup = await typeFailRepository.findOne({ where: { SAPCode: payload.plannerGroup, operation: payload.operation } })
 
-  if (!plannerGroup) throw new Error(JSON.stringify({data:payload, msg:"plannerGroup not found"}));
+  if (!plannerGroup) throw { data: payload, error: new Error(`plannerGroup: '${payload.plannerGroup}' not found`) }
 
   const lineMachineRepository = getRepository(LineMachine)
-  const equipment = await lineMachineRepository.findOne({ where: { name: payload.equipment } })
+  const equipment = await lineMachineRepository.findOne({ where: { SAPCode: payload.equipment } })
 
-  if (!equipment) throw new Error(JSON.stringify({data:payload, msg:"equipment not found"}));
+  if (!equipment) throw { data: payload, error: new Error(`equipment: '${payload.equipment}' not found`) }
 
   const lineRepository = getRepository(Line)
-  const technicalLocation = await lineRepository.findOne({ where: { name: payload.technicalLocation } })
+  const technicalLocation = await lineRepository.findOne({ where: { SAPCode: payload.technicalLocation } })
 
-  if (!technicalLocation) throw new Error(JSON.stringify({data:payload, msg:"technicalLocation not found"}));
+  if (!technicalLocation) throw { data: payload, error: new Error(`technicalLocation: '${payload.technicalLocation}' not found`) }
   
   data = { 
     ...payload, 

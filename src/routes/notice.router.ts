@@ -188,7 +188,7 @@ router.post("/external-notice-consumers", async (req: any, res) => {
     return res.send(response);
   } catch (error: any) {
     console.log(error)
-    return res.status(404).json({ error: error.message })
+    return res.status(404).json({ reqData: error.data, error: error.error.message })
   }
 });
 
