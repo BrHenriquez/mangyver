@@ -2,6 +2,7 @@
 import { getUser } from "../repositories/user.repository";
 import express, { Request, Response } from "express";
 import NoticeController from "../controllers/notice.controller";
+import moment from "moment";
 // import jwt_decode from "jwt-decode";
 import UserInfo from "../middlewares/getUserFromToken";
 import axios from "axios";
@@ -46,11 +47,18 @@ router.get("/", async (_req, res) => {
     String(_req.query.filter || null),
     Boolean(_req.query.totalRows || false),
     Boolean(Number(_req.query.isActive) || false),
-    String(_req.headers.timezone || 'GTM-5')
+    String(_req.headers.timezone || "GTM-5")
   );
   const results = JSON.parse(JSON.stringify(response));
   results.map((result: any) => {
     result.label = result.name;
+
+    if (result.failureTimeStartDate == null) {
+      result.failureTimeStartDate = moment().format();
+      result.failureTimeStartTime = moment().format();
+    }
+    result.failureTimeStartDate = moment(result.failureTimeStartDate).format();
+    result.failureTimeStartTime = moment(result.failureTimeStartTime).format();
   });
   // log.silly(results);
   return res.send(results);
@@ -77,7 +85,7 @@ router.post("/", async (req: any, res) => {
   const user = await userInfo.getUserFromToken(req);
   req.body.user = user.id;
   const controller = new NoticeController();
-  const response = await controller.createNoticeNewFormat(req.body);
+  let response = await controller.createNoticeNewFormat(req.body);
   console.log(response);
   // let body = {
   //   IV_AVISOS: {
@@ -165,7 +173,19 @@ router.post("/", async (req: any, res) => {
 
   // log.silly(response);
   createSapLog(payload);
-  return res.send(response);
+
+  if (response.failureTimeStartDate == null) {
+    response.failureTimeStartDate = moment().format();
+    response.failureTimeStartTime = moment().format();
+  }
+
+  response.failureTimeStartDate = moment(
+    response.failureTimeStartDate
+  ).format();
+  response.failureTimeStartTime = new Date(
+    response.failureTimeStartTime
+  ).toString();
+  return res.send({ ...response, ...payload });
 });
 
 router.post("/external-notice-consumers", async (req: any, res) => {
@@ -180,15 +200,15 @@ router.post("/external-notice-consumers", async (req: any, res) => {
   const user = await userInfo.getUserFromToken(req);
   req.body.user = user.id;
 
-  try { 
+  try {
     const controller = new NoticeController();
     const response = await controller.createNoticeThirdParties(req.body);
     console.log(response);
-    
+
     return res.send(response);
   } catch (error: any) {
-    console.log(error)
-    return res.status(404).json({ error: error.message })
+    console.log(error);
+    return res.status(404).json({ error: error.message });
   }
 });
 
