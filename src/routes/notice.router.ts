@@ -188,6 +188,18 @@ router.post("/", async (req: any, res) => {
   return res.send({ ...response, ...payload });
 });
 
+router.get("/notice-machine", async (req, res) => {
+  const controller = new NoticeController();
+  const response = await controller.getNoticesByMachineId(req.query.machineId);
+  const results = JSON.parse(JSON.stringify(response));
+  /* results.map((result: any) => {
+    result.label = result.name;
+    result.filter = result.id;
+  }); */
+  log.silly(results);
+  return res.send(results);
+});
+
 router.post("/external-notice-consumers", async (req: any, res) => {
   const headers = req.headers;
   const token = headers.auth;

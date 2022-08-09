@@ -167,6 +167,11 @@ export const getNotices = async (
   //  return [];
 };
 
+export const getNoticesByMachineId = async (machineId?: any): Promise<Array<Notice>> => {
+  const noticeRepository = getRepository(Notice);
+  return noticeRepository.find({ equipmentId: machineId });
+};
+
 export const createNotice = async (
   payload: INoticePayload
 ): Promise<Notice> => {
