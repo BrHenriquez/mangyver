@@ -16,12 +16,13 @@ export const getCards = async (
 ): Promise<Array<Card>> => {
   const repository = getRepository(Card);
   if (process) {
-    return repository.find({ where: { process, isActive: true } });
+    return repository.find({ where: { process, isActive: true }, relations: ['process'] });
   }
 
   return repository.find({
     where: [{ operation: operationId, isActive: true }],
     order: { name: "ASC" },
+    relations: ['process']
   });
 };
 
