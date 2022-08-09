@@ -142,10 +142,10 @@ export class Notice {
   // user!: number;
   // @Column({ name: "Priority", length: 300 })
   // priority!: string;
-  @Column({ name: "FailureTimeStartDate", nullable: true })
+  @Column({ name: "failureTimeStartDate", nullable: true })
   failureTimeStartDate!: string;
 
-  @Column({ name: "FailureTimeStartTime", nullable: true })
+  @Column({ name: "failureTimeStartTime", nullable: true })
   failureTimeStartTime!: string;
 
   @Column({ name: "Status", default: true })
