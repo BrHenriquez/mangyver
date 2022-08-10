@@ -12,6 +12,8 @@ export interface INotificationPayload {
   isDone: boolean;
   comments?: string;
   numPeople?: number;
+  partialDate?: Date;
+  endDate?: Date;
 }
 
 export const getNotifications = async (

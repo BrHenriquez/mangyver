@@ -2252,6 +2252,14 @@
 						"type": "string",
 						"format": "date-time"
 					},
+					"partialDate": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"endDate": {
+						"type": "string",
+						"format": "date-time"
+					},
 					"isDone": {
 						"type": "boolean"
 					},
@@ -2288,6 +2296,8 @@
 					"otCode",
 					"startHour",
 					"endHour",
+					"partialDate",
+					"endDate",
 					"isDone",
 					"numPeople",
 					"comments",
@@ -2329,6 +2339,14 @@
 					"numPeople": {
 						"type": "number",
 						"format": "double"
+					},
+					"partialDate": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"endDate": {
+						"type": "string",
+						"format": "date-time"
 					}
 				},
 				"required": [
@@ -3320,6 +3338,40 @@
 						}
 					}
 				}
+			}
+		},
+		"/notices/notice-machine": {
+			"get": {
+				"operationId": "GetNoticesByMachineId",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/Notice"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Notice"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "machineId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
 			}
 		},
 		"/notices/{id}": {
