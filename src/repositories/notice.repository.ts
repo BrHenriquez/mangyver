@@ -1,4 +1,4 @@
-import { Affect } from './../models/affect'
+import { Affect } from "./../models/affect";
 /* eslint-disable */
 import internal from "stream";
 import { getRepository } from "typeorm";
@@ -51,6 +51,8 @@ export interface INoticePayload {
   textSymptom: string;
   failureTimeStartDate: string;
   failureTimeStartTime: string;
+  startHour: string;
+  endHour: string;
 }
 
 export interface INoticenPayloadNewFormat {
@@ -112,7 +114,7 @@ export const getNotices = async (
   filter?: string | null,
   totalRows?: boolean,
   isActive?: boolean,
-  timezone?: string,
+  timezone?: string
 ): Promise<Array<Notice>> => {
   console.log(
     userId,
@@ -180,54 +182,89 @@ export const createNotice = async (
 
 export const createNoticeThirdParties = async (
   payload: INoticeThirdParties
-)/* : Promise<Notice> */ => {
-  let data: any = {}
+) /* : Promise<Notice> */ => {
+  let data: any = {};
 
-  const processRepository = getRepository(Process)
-  const process = await processRepository.findOne({ where: { name: payload.noticeType, operation: payload.operation } }) 
+  const processRepository = getRepository(Process);
+  const process = await processRepository.findOne({
+    where: { name: payload.noticeType, operation: payload.operation },
+  });
 
-  if (!process) throw new Error(JSON.stringify({data:payload, msg:"noticeType not found"}));
-  
-  const cardRepository = getRepository(Card)
-  const card = await cardRepository.findOne({ where: { name: payload.codification, operation: payload.operation } }) 
-  
-  if (!card) throw new Error(JSON.stringify({data:payload, msg:"codification not found"}));
+  if (!process)
+    throw new Error(
+      JSON.stringify({ data: payload, msg: "noticeType not found" })
+    );
 
-  const priorityRepository = getRepository(Priority)
-  const priority = await priorityRepository.findOne({ where: { name: payload.priority, operation: payload.operation } })
-  
-  if (!priority) throw new Error(JSON.stringify({data:payload, msg:"priority not found"}));
+  const cardRepository = getRepository(Card);
+  const card = await cardRepository.findOne({
+    where: { name: payload.codification, operation: payload.operation },
+  });
 
-  const affectRepository = getRepository(Affect)
-  const repercussion = await affectRepository.findOne({ where: { name: payload.repercussion, /* operation: payload.operation */ } })
+  if (!card)
+    throw new Error(
+      JSON.stringify({ data: payload, msg: "codification not found" })
+    );
 
-  if (!repercussion) throw new Error(JSON.stringify({data:payload, msg:"repercussion not foundr"}));
+  const priorityRepository = getRepository(Priority);
+  const priority = await priorityRepository.findOne({
+    where: { name: payload.priority, operation: payload.operation },
+  });
 
-  const typeFailRepository = getRepository(TypeFail)
-  const plannerGroup = await typeFailRepository.findOne({ where: { name: payload.plannerGroup, operation: payload.operation } })
+  if (!priority)
+    throw new Error(
+      JSON.stringify({ data: payload, msg: "priority not found" })
+    );
 
-  if (!plannerGroup) throw new Error(JSON.stringify({data:payload, msg:"plannerGroup not found"}));
+  const affectRepository = getRepository(Affect);
+  const repercussion = await affectRepository.findOne({
+    where: { name: payload.repercussion /* operation: payload.operation */ },
+  });
 
-  const lineMachineRepository = getRepository(LineMachine)
-  const equipment = await lineMachineRepository.findOne({ where: { name: payload.equipment } })
+  if (!repercussion)
+    throw new Error(
+      JSON.stringify({ data: payload, msg: "repercussion not foundr" })
+    );
 
-  if (!equipment) throw new Error(JSON.stringify({data:payload, msg:"equipment not found"}));
+  const typeFailRepository = getRepository(TypeFail);
+  const plannerGroup = await typeFailRepository.findOne({
+    where: { name: payload.plannerGroup, operation: payload.operation },
+  });
 
-  const lineRepository = getRepository(Line)
-  const technicalLocation = await lineRepository.findOne({ where: { name: payload.technicalLocation } })
+  if (!plannerGroup)
+    throw new Error(
+      JSON.stringify({ data: payload, msg: "plannerGroup not found" })
+    );
 
-  if (!technicalLocation) throw new Error(JSON.stringify({data:payload, msg:"technicalLocation not found"}));
-  
-  data = { 
-    ...payload, 
+  const lineMachineRepository = getRepository(LineMachine);
+  const equipment = await lineMachineRepository.findOne({
+    where: { name: payload.equipment },
+  });
+
+  if (!equipment)
+    throw new Error(
+      JSON.stringify({ data: payload, msg: "equipment not found" })
+    );
+
+  const lineRepository = getRepository(Line);
+  const technicalLocation = await lineRepository.findOne({
+    where: { name: payload.technicalLocation },
+  });
+
+  if (!technicalLocation)
+    throw new Error(
+      JSON.stringify({ data: payload, msg: "technicalLocation not found" })
+    );
+
+  data = {
+    ...payload,
     lineId: technicalLocation.id,
     equipmentId: equipment.id,
     failureTypeId: plannerGroup.id,
     affectsId: repercussion.id,
     priorityId: priority.id,
     cardTypeId: card.id,
-    processId: process.id
-  }
+    processId: process.id,
+  };
 
   const repository = getRepository(Notice);
   const notice = new Notice();
@@ -237,7 +274,12 @@ export const createNoticeThirdParties = async (
     ...data,
   });
 
-  return { status: 'OK', reqData: payload, resData:noticeCreated, msg:'data recived and saved' }
+  return {
+    status: "OK",
+    reqData: payload,
+    resData: noticeCreated,
+    msg: "data recived and saved",
+  };
 };
 
 export const createnewNoticeFormat = async (

@@ -1176,6 +1176,12 @@
 					"failureTimeStartTime": {
 						"type": "string"
 					},
+					"startHour": {
+						"type": "string"
+					},
+					"endHour": {
+						"type": "string"
+					},
 					"isActive": {
 						"type": "boolean"
 					},
@@ -1219,6 +1225,8 @@
 					"userUpdate",
 					"failureTimeStartDate",
 					"failureTimeStartTime",
+					"startHour",
+					"endHour",
 					"isActive",
 					"created",
 					"updatedDate"
@@ -1305,6 +1313,12 @@
 					},
 					"failureTimeStartTime": {
 						"type": "string"
+					},
+					"startHour": {
+						"type": "string"
+					},
+					"endHour": {
+						"type": "string"
 					}
 				},
 				"required": [
@@ -1332,7 +1346,9 @@
 					"textCause",
 					"textSymptom",
 					"failureTimeStartDate",
-					"failureTimeStartTime"
+					"failureTimeStartTime",
+					"startHour",
+					"endHour"
 				],
 				"type": "object",
 				"additionalProperties": false
