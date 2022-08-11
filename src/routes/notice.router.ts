@@ -57,6 +57,11 @@ router.get("/", async (_req, res) => {
       result.failureTimeStartDate = moment().format();
       result.failureTimeStartTime = moment().format();
     }
+
+    if (result.startHour == null) {
+      result.startHour = moment().format();
+      result.endHour = moment().format();
+    }
     result.failureTimeStartDate = moment(result.failureTimeStartDate).format();
     result.failureTimeStartTime = moment(result.failureTimeStartTime).format();
   });
@@ -179,12 +184,18 @@ router.post("/", async (req: any, res) => {
     response.failureTimeStartTime = moment().format();
   }
 
+  if (response.startHour == null) {
+    response.startHour = moment().format();
+  }
+
   response.failureTimeStartDate = moment(
     response.failureTimeStartDate
   ).format();
-  response.failureTimeStartTime = new Date(
+  response.failureTimeStartTime = moment(
     response.failureTimeStartTime
-  ).toString();
+  ).format();
+  response.startHour = moment(response.startHour).format();
+  response.endHour = moment(response.endHour).format();
   return res.send({ ...response, ...payload });
 });
 

@@ -1,4 +1,4 @@
-import { Affect } from './../models/affect'
+import { Affect } from "./../models/affect";
 /* eslint-disable */
 import internal from "stream";
 import { getRepository } from "typeorm";
@@ -51,6 +51,8 @@ export interface INoticePayload {
   textSymptom: string;
   failureTimeStartDate: string;
   failureTimeStartTime: string;
+  startHour: string;
+  endHour: string;
 }
 
 export interface INoticenPayloadNewFormat {
@@ -112,7 +114,7 @@ export const getNotices = async (
   filter?: string | null,
   totalRows?: boolean,
   isActive?: boolean,
-  timezone?: string,
+  timezone?: string
 ): Promise<Array<Notice>> => {
   console.log(
     userId,
@@ -185,8 +187,8 @@ export const createNotice = async (
 
 export const createNoticeThirdParties = async (
   payload: INoticeThirdParties
-)/* : Promise<Notice> */ => {
-  let data: any = {}
+) /* : Promise<Notice> */ => {
+  let data: any = {};
 
   const processRepository = getRepository(Process)
   const process = await processRepository.findOne({ where: { SAPCode: payload.noticeType, operation: payload.operation } }) 
@@ -231,8 +233,8 @@ export const createNoticeThirdParties = async (
     affectsId: repercussion.id,
     priorityId: priority.id,
     cardTypeId: card.id,
-    processId: process.id
-  }
+    processId: process.id,
+  };
 
   const repository = getRepository(Notice);
   const notice = new Notice();
@@ -242,7 +244,12 @@ export const createNoticeThirdParties = async (
     ...data,
   });
 
-  return { status: 'OK', reqData: payload, resData:noticeCreated, msg:'data recived and saved' }
+  return {
+    status: "OK",
+    reqData: payload,
+    resData: noticeCreated,
+    msg: "data recived and saved",
+  };
 };
 
 export const createnewNoticeFormat = async (

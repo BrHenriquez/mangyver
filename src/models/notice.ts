@@ -148,6 +148,12 @@ export class Notice {
   @Column({ name: "failureTimeStartTime", nullable: true })
   failureTimeStartTime!: string;
 
+  @Column({ name: "startHour", nullable: true })
+  startHour!: string;
+
+  @Column({ name: "endHour", nullable: true })
+  endHour!: string;
+
   @Column({ name: "Status", default: true })
   isActive!: boolean;
   @CreateDateColumn({ type: "date" })
