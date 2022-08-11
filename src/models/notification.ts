@@ -44,6 +44,12 @@ export class Notification {
   @Column({ name: "EndHour", nullable: true })
   endHour!: Date;
 
+  @Column({ name: "partialDate", nullable: true, default: null })
+  partialDate!: Date;
+
+  @Column({ name: "endDate", nullable: true, default: null })
+  endDate!: Date;
+
   @Column({ name: "IsDone" })
   isDone!: boolean;
 

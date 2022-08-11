@@ -1,3 +1,4 @@
+import { getNoticesByMachineId } from './../repositories/notice.repository'
 /* eslint-disable */
 import { profile } from "console";
 import { Get, Route, Tags, Post, Body, Path, Query, Put } from "tsoa";
@@ -89,6 +90,13 @@ export default class NoticeController {
     return createNoticeThirdParties(body);
   }
 
+  @Get("/notice-machine")
+  public async getNoticesByMachineId(
+    @Query() machineId: any
+  ): Promise<Array<Notice>> {
+    return getNoticesByMachineId(machineId);
+  }
+  
   @Put("/:id")
   public async updateNotice(
     @Path() id: string,
