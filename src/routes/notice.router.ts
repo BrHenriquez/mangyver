@@ -54,16 +54,26 @@ router.get("/", async (_req, res) => {
     result.label = result.name;
 
     if (result.failureTimeStartDate == null) {
-      result.failureTimeStartDate = moment().format();
-      result.failureTimeStartTime = moment().format();
+      result.failureTimeStartDate = "null";
+    } else if (result.failureTimeStartTime == null) {
+      result.failureTimeStartTime = "null";
+    } else {
+      result.failureTimeStartDate = moment(
+        result.failureTimeStartDate
+      ).format();
+      result.failureTimeStartTime = moment(
+        result.failureTimeStartTime
+      ).format();
     }
 
     if (result.startHour == null) {
-      result.startHour = moment().format();
-      result.endHour = moment().format();
+      result.startHour = "null";
+    } else if (result.endHour == null) {
+      result.endHour = "null";
+    } else {
+      result.startHour = moment(result.startHour).format();
+      result.endHour = moment(result.endHour).format();
     }
-    result.failureTimeStartDate = moment(result.failureTimeStartDate).format();
-    result.failureTimeStartTime = moment(result.failureTimeStartTime).format();
   });
   // log.silly(results);
   return res.send(results);
@@ -180,22 +190,26 @@ router.post("/", async (req: any, res) => {
   createSapLog(payload);
 
   if (response.failureTimeStartDate == null) {
-    response.failureTimeStartDate = moment().format();
-    response.failureTimeStartTime = moment().format();
+    response.failureTimeStartDate = "null";
+  } else if (response.failureTimeStartTime == null) {
+    response.failureTimeStartTime = "null";
+  } else {
+    response.failureTimeStartDate = moment(
+      response.failureTimeStartDate
+    ).format();
+    response.failureTimeStartTime = moment(
+      response.failureTimeStartTime
+    ).format();
   }
 
   if (response.startHour == null) {
-    response.startHour = moment().format();
+    response.startHour = "null";
+  } else if (response.endHour == null) {
+    response.endHour = "null";
+  } else {
+    response.startHour = moment(response.startHour).format();
+    response.endHour = moment(response.endHour).format();
   }
-
-  response.failureTimeStartDate = moment(
-    response.failureTimeStartDate
-  ).format();
-  response.failureTimeStartTime = moment(
-    response.failureTimeStartTime
-  ).format();
-  response.startHour = moment(response.startHour).format();
-  response.endHour = moment(response.endHour).format();
   return res.send({ ...response, ...payload });
 });
 
