@@ -14,11 +14,14 @@ import { Field } from "./field";
 
 @Entity("Section")
 export class Section {
-  @PrimaryColumn("uuid", { name: "RoleID" })
+  @PrimaryGeneratedColumn("uuid")
   id!: string;
 
-  @ManyToOne(type => Field, field => field.id)
-  fields!: Field;
+  @Column({ name: "Name" })
+  name!: string;
+
+  @OneToMany(type => Field, field => field.section, { cascade: ['insert'] })
+  fields!: Field[];
 
   @ManyToOne(type => User, user => user.id)
   userUpdate!: User;

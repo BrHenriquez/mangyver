@@ -1715,8 +1715,17 @@
 					"validations": {
 						"type": "string"
 					},
+					"parent": {
+						"$ref": "#/components/schemas/Field"
+					},
 					"childfield": {
-						"type": "string"
+						"items": {
+							"$ref": "#/components/schemas/Field"
+						},
+						"type": "array"
+					},
+					"section": {
+						"$ref": "#/components/schemas/Section"
 					},
 					"userUpdate": {
 						"$ref": "#/components/schemas/User"
@@ -1732,8 +1741,47 @@
 					"label",
 					"optionsEndpoint",
 					"validations",
+					"parent",
 					"childfield",
+					"section",
 					"userUpdate",
+					"updatedDate"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Section": {
+				"properties": {
+					"id": {
+						"type": "string"
+					},
+					"name": {
+						"type": "string"
+					},
+					"fields": {
+						"items": {
+							"$ref": "#/components/schemas/Field"
+						},
+						"type": "array"
+					},
+					"userUpdate": {
+						"$ref": "#/components/schemas/User"
+					},
+					"created": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"updatedDate": {
+						"type": "string",
+						"format": "date-time"
+					}
+				},
+				"required": [
+					"id",
+					"name",
+					"fields",
+					"userUpdate",
+					"created",
 					"updatedDate"
 				],
 				"type": "object",
@@ -1753,8 +1801,14 @@
 					"validations": {
 						"type": "string"
 					},
+					"parent": {
+						"$ref": "#/components/schemas/Field"
+					},
 					"childfield": {
-						"type": "string"
+						"items": {
+							"$ref": "#/components/schemas/Field"
+						},
+						"type": "array"
 					}
 				},
 				"required": [
@@ -1762,48 +1816,26 @@
 					"label",
 					"optionsEndpoint",
 					"validations",
+					"parent",
 					"childfield"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"Section": {
-				"properties": {
-					"id": {
-						"type": "string"
-					},
-					"fields": {
-						"$ref": "#/components/schemas/Field"
-					},
-					"userUpdate": {
-						"$ref": "#/components/schemas/User"
-					},
-					"created": {
-						"type": "string",
-						"format": "date-time"
-					},
-					"updatedDate": {
-						"type": "string",
-						"format": "date-time"
-					}
-				},
-				"required": [
-					"id",
-					"fields",
-					"userUpdate",
-					"created",
-					"updatedDate"
 				],
 				"type": "object",
 				"additionalProperties": false
 			},
 			"ISectionPayload": {
 				"properties": {
+					"name": {
+						"type": "string"
+					},
 					"fields": {
-						"$ref": "#/components/schemas/Field"
+						"items": {
+							"$ref": "#/components/schemas/Field"
+						},
+						"type": "array"
 					}
 				},
 				"required": [
+					"name",
 					"fields"
 				],
 				"type": "object",
@@ -3861,7 +3893,10 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/Section"
+									"items": {
+										"$ref": "#/components/schemas/Section"
+									},
+									"type": "array"
 								}
 							}
 						}
@@ -3877,7 +3912,10 @@
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/ISectionPayload"
+								"items": {
+									"$ref": "#/components/schemas/ISectionPayload"
+								},
+								"type": "array"
 							}
 						}
 					}

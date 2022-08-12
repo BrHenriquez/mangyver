@@ -3,7 +3,8 @@ import { getRepository } from "typeorm";
 import { Field, Section } from "../models";
 
 export interface ISectionPayload {
-  fields: Field;
+  name: string;
+  fields: Field[];
 }
 
 export const getSections = async (): Promise<Array<Section>> => {
@@ -12,14 +13,13 @@ export const getSections = async (): Promise<Array<Section>> => {
 };
 
 export const createSection = async (
-  payload: ISectionPayload
-): Promise<Section> => {
+  payload: ISectionPayload[]
+): Promise<Section[]> => {
   const repository = getRepository(Section);
-  const section = new Section();
-  return repository.save({
-    ...section,
-    ...payload,
-  });
+  const sections = repository.create(payload);
+  await repository.save(sections);
+
+  return sections
 };
 
 export const getSection = async (id: string): Promise<Section | null> => {
