@@ -283,4 +283,8 @@ export const getNotice = async (id: string): Promise<Notice | null> => {
   console.log(repository);
   return repository;
 };
-/* eslint-disable */
+
+export const destroyNoticeById = async (id: string) =>  {
+    const {affected} = await getRepository(Notice).delete({ id })
+    if(!affected) throw new Error(`Could not find id: ${id}`);
+  };
