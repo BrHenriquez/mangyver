@@ -1,6 +1,7 @@
 import { Affect } from "./../models/affect";
 /* eslint-disable */
 import internal from "stream";
+import { Responsable } from './../models/responsable'
 import { getRepository } from "typeorm";
 import {
   Breakdown,
@@ -94,9 +95,12 @@ export interface INoticeThirdParties {
   technicalLocation: string;
   title: string;
   description: string;
-  objectPartText: string;
-  symptomText: string;
+  textCause: string;
+  textSymptom: string;
   equipmentSet: string;
+  responsable: string;
+  failureTimeStartDate: string;
+  failureTime: string;
   operation: string;
 }
 
@@ -187,53 +191,88 @@ export const createNotice = async (
 
 export const createNoticeThirdParties = async (
   payload: INoticeThirdParties
-) /* : Promise<Notice> */ => {
+) => {
   let data: any = {};
+  let card = null;
+  let repercussion = null;
+  let plannerGroup = null;
+  let technicalLocation = null;
+  let equipment = null;
+  let component = null;
+  let responsable = null;
 
   const processRepository = getRepository(Process)
-  const process = await processRepository.findOne({ where: { SAPCode: payload.noticeType, operation: payload.operation } }) 
+  const process = await processRepository.findOne({ where: { SAPCode: payload.noticeType, operation: payload.operation, isActive: true } }) 
   
   if (!process) throw { data: payload, error: new Error(`noticeType: '${payload.noticeType}' not found`) }
 
-  const cardRepository = getRepository(Card)
-  const card = await cardRepository.findOne({ where: { name: payload.codification, operation: payload.operation } }) 
-  
-  if (!card) throw { data: payload, error: new Error(`codification: '${payload.codification}' not found`) }
+  if (payload.codification) {
+    const cardRepository = getRepository(Card)
+    card = await cardRepository.findOne({ where: { SAPCode: payload.codification, operation: payload.operation, process: process.processId, isActive: true } }) 
+    
+    if (!card) throw { data: payload, error: new Error(`codification: '${payload.codification}' not found`) }
+  }
 
   const priorityRepository = getRepository(Priority)
-  const priority = await priorityRepository.findOne({ where: { SAPCode: payload.priority, operation: payload.operation } })
+  const priority = await priorityRepository.findOne({ where: { SAPCode: payload.priority, operation: payload.operation, isActive: true } })
   
   if (!priority) throw { data: payload, error: new Error(`priority: '${payload.priority}' not found`) }
 
-  const affectRepository = getRepository(Affect)
-  const repercussion = await affectRepository.findOne({ where: { SAPCode: payload.repercussion, operation: payload.operation } })
+  if (payload.repercussion) {
+    const affectRepository = getRepository(Affect)
+    repercussion = await affectRepository.findOne({ where: { SAPCode: payload.repercussion, operation: payload.operation, isActive: true } })
+  
+    if (!repercussion) throw { data: payload, error: new Error(`repercussion: '${payload.repercussion}' not found`) }
+  }
 
-  if (!repercussion) throw { data: payload, error: new Error(`repercussion: '${payload.repercussion}' not found`) }
+  if (payload.plannerGroup) {
+    const typeFailRepository = getRepository(TypeFail)
+    plannerGroup = await typeFailRepository.findOne({ where: { SAPCode: payload.plannerGroup, operation: payload.operation, isActive: true } })
+  
+    if (!plannerGroup) throw { data: payload, error: new Error(`plannerGroup: '${payload.plannerGroup}' not found`) }
+  }
 
-  const typeFailRepository = getRepository(TypeFail)
-  const plannerGroup = await typeFailRepository.findOne({ where: { SAPCode: payload.plannerGroup, operation: payload.operation } })
+  if (payload.equipment) {
+    const lineMachineRepository = getRepository(LineMachine)
+    equipment = await lineMachineRepository.findOne({ relations: ['line'], where: { SAPCode: payload.equipment, isActive: true, line: { operation: payload.operation } } })
+  
+    if (!equipment) throw { data: payload, error: new Error(`equipment: '${payload.equipment}' not found`) }
+    
+    if (payload.equipmentSet) {
+      const componentRepository = getRepository(Component)
+      component = await componentRepository.findOne({ relations: ['lineMachine'], where: { SAPCode: payload.equipmentSet, isActive: true, machine: { id: equipment?.id } } })
+    
+      if (!component) throw { data: payload, error: new Error(`equipmentSet: '${payload.equipmentSet}' not found`) }
+    }
+  }
 
-  if (!plannerGroup) throw { data: payload, error: new Error(`plannerGroup: '${payload.plannerGroup}' not found`) }
+  if (payload.technicalLocation) {
+    const lineRepository = getRepository(Line)
+    technicalLocation = await lineRepository.findOne({ where: { SAPCode: payload.technicalLocation, operation: payload.operation, isActive: true } })
+  
+    if (!technicalLocation) throw { data: payload, error: new Error(`technicalLocation: '${payload.technicalLocation}' not found`) }
+  }
 
-  const lineMachineRepository = getRepository(LineMachine)
-  const equipment = await lineMachineRepository.findOne({ where: { SAPCode: payload.equipment } })
-
-  if (!equipment) throw { data: payload, error: new Error(`equipment: '${payload.equipment}' not found`) }
-
-  const lineRepository = getRepository(Line)
-  const technicalLocation = await lineRepository.findOne({ where: { SAPCode: payload.technicalLocation } })
-
-  if (!technicalLocation) throw { data: payload, error: new Error(`technicalLocation: '${payload.technicalLocation}' not found`) }
+  if (payload.responsable) {
+    const responsableRepository = getRepository(Responsable)
+    responsable = await responsableRepository.findOne({ where: { SAPCode: payload.responsable, operationId: payload.operation, isActive: true } })
+  
+    if (!responsable) throw { data: payload, error: new Error(`responsable: '${payload.responsable}' not found`) }
+  }
   
   data = { 
-    ...payload, 
-    lineId: technicalLocation.id,
-    equipmentId: equipment.id,
-    failureTypeId: plannerGroup.id,
-    affectsId: repercussion.id,
+    ...payload,
+    cardTitle: payload.title, 
+    cardDescription: payload.description, 
+    lineId: technicalLocation?.id,
+    equipmentId: equipment?.id,
+    componentsId: component?.id,
+    failureTypeId: plannerGroup?.id,
+    affectsId: repercussion?.id,
     priorityId: priority.id,
-    cardTypeId: card.id,
+    cardTypeId: card?.id,
     processId: process.id,
+    responsableId: responsable?.id,
   };
 
   const repository = getRepository(Notice);

@@ -609,6 +609,9 @@
 					"name": {
 						"type": "string"
 					},
+					"SAPCode": {
+						"type": "string"
+					},
 					"operation": {
 						"$ref": "#/components/schemas/Operation"
 					},
@@ -634,6 +637,7 @@
 					"id",
 					"groupCode",
 					"name",
+					"SAPCode",
 					"operation",
 					"process",
 					"userUpdate",
@@ -1499,13 +1503,22 @@
 					"description": {
 						"type": "string"
 					},
-					"objectPartText": {
+					"textCause": {
 						"type": "string"
 					},
-					"symptomText": {
+					"textSymptom": {
 						"type": "string"
 					},
 					"equipmentSet": {
+						"type": "string"
+					},
+					"responsable": {
+						"type": "string"
+					},
+					"failureTimeStartDate": {
+						"type": "string"
+					},
+					"failureTime": {
 						"type": "string"
 					},
 					"operation": {
@@ -1522,9 +1535,12 @@
 					"technicalLocation",
 					"title",
 					"description",
-					"objectPartText",
-					"symptomText",
+					"textCause",
+					"textSymptom",
 					"equipmentSet",
+					"responsable",
+					"failureTimeStartDate",
+					"failureTime",
 					"operation"
 				],
 				"type": "object",
