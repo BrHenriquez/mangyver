@@ -1,6 +1,6 @@
 /* eslint-disable */
 import express from "express";
-import NotificationController from "../controllers/notification.controller";
+import NotificationController, { deleteNotificationById } from "../controllers/notification.controller";
 import { log } from "../config/logger";
 import UserInfo from "../middlewares/getUserFromToken";
 import { Notice } from "../models";
@@ -103,5 +103,7 @@ router.get("/:id", async (req, res) => {
   log.silly(response);
   return res.send(response);
 });
+
+router.delete('/:id/delete-by-id', [deleteNotificationById]);
 
 export default router;

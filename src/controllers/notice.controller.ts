@@ -1,4 +1,4 @@
-import { getNoticesByMachineId } from './../repositories/notice.repository'
+import { destroyNoticeById, getNoticesByMachineId } from './../repositories/notice.repository'
 /* eslint-disable */
 import { profile } from "console";
 import { Get, Route, Tags, Post, Body, Path, Query, Put } from "tsoa";
@@ -14,6 +14,7 @@ import {
   INoticeThirdParties,
   createNoticeThirdParties
 } from "../repositories/notice.repository";
+import { Request, Response } from 'express';
 
 @Route("notices")
 @Tags("Notice")
@@ -108,6 +109,20 @@ export default class NoticeController {
   @Get("/:id")
   public async getNotice(@Path() id: string): Promise<Notice | null> {
     return getNotice(id);
+  }
+}
+
+export const deleteNoticeById = async (request: Request, response: Response) => {
+  try {
+    const {id} = request.params;
+    console.log(`[Mangyver] Deleting notice id: ${id}`)
+    await destroyNoticeById(id);
+    response.status(202).send({data: `Notice with id:${id} has been deleted`})
+  } catch (error: any) {
+    const errorMessage = `Could not delete notice with id:${request.params.id}` 
+    console.error(`${errorMessage} - error: ${error.message} - stack ${error.stack}`)
+    response.status(500).send({data:errorMessage })
+    throw new Error(error.message)
   }
 }
 /* eslint-disable */

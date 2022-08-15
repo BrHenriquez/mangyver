@@ -1,7 +1,7 @@
 /* eslint-disable */
 import { getUser } from "../repositories/user.repository";
 import express, { Request, Response } from "express";
-import NoticeController from "../controllers/notice.controller";
+import NoticeController, { deleteNoticeById } from "../controllers/notice.controller";
 import moment from "moment";
 // import jwt_decode from "jwt-decode";
 import UserInfo from "../middlewares/getUserFromToken";
@@ -270,5 +270,7 @@ router.get("/:id", async (req, res) => {
   log.silly(response);
   return res.send(response);
 });
+
+router.delete('/:id/delete-by-id', [deleteNoticeById]);
 
 export default router;

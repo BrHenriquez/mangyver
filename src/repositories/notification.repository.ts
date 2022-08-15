@@ -1,4 +1,5 @@
 /* eslint-disable */
+import { error } from "console";
 import { getRepository } from "typeorm";
 import { Notification, OperationNumber, Deviation, Operation } from "../models";
 
@@ -80,4 +81,10 @@ export const getNotification = async (
   );
   return repository;
 };
+
+export const destroyNoficicationById = async (id: string) =>  {
+    const { affected } = await getRepository(Notification).delete(id)
+    if(!affected) throw new Error(`Could not find notification with id: ${id}`)    
+};
+
 /* eslint-disable */

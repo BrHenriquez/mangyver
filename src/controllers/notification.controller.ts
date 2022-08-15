@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { query } from "express";
+import { query, Request, Response } from "express";
 import { Get, Route, Tags, Post, Body, Path, Query } from "tsoa";
 import { Notification } from "../models";
 import {
@@ -7,6 +7,7 @@ import {
   createNotification,
   INotificationPayload,
   getNotification,
+  destroyNoficicationById,
 } from "../repositories/notification.repository";
 
 @Route("notifications")
@@ -69,4 +70,17 @@ export default class NotificationController {
     return getNotification(id);
   }
 }
-/* eslint-disable */
+
+export const deleteNotificationById = async (request: Request, response: Response) => {
+  try {
+    const {id} = request.params;
+    console.log(`[Mangyver] Deleting notification id: ${id}`)
+    await destroyNoficicationById(id);
+    response.status(202).send({data: `Notification with id:${id} has been deleted`})
+  } catch (error: any) {
+    const errorMessage = `Could not delete notification with id:${request.params.id}` 
+    console.error(`${errorMessage} - error: ${error.message} - stack ${error.stack}`)
+    response.status(500).send({data:errorMessage })
+    throw new Error(error.message)
+  }
+}
