@@ -7,7 +7,8 @@ export interface IFieldPayload {
   label: string;
   optionsEndpoint: string;
   validations: string;
-  childfield: string;
+  parent: Field;
+  childfield: Field[];
 }
 
 export const getFields = async (): Promise<Array<Field>> => {

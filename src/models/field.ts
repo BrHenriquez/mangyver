@@ -25,6 +25,7 @@ import {
   CreateDateColumn,
   ManyToOne,
   UpdateDateColumn,
+  OneToMany,
 } from "typeorm";
 import { Section } from "./section";
 
@@ -62,8 +63,14 @@ export class Field {
   @Column({ name: "Validations" })
   validations!: string;
 
-  @Column({ name: "Childfield" })
-  childfield!: string;
+  @ManyToOne((type) => Field, (field) => field.childfield)
+  parent!: Field;
+
+  @OneToMany((type) => Field, (field) => field.parent, { cascade: ['insert'] })
+  childfield!: Field[];
+
+  @ManyToOne(type => Section, section => section.id)
+  section!: Section;
 
   @ManyToOne(type => User, user => user.id)
   userUpdate!: User;

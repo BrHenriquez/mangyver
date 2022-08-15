@@ -17,7 +17,7 @@ export default class SectionController {
   }
 
   @Post("/")
-  public async createSection(@Body() body: ISectionPayload): Promise<Section> {
+  public async createSection(@Body() body: ISectionPayload[]): Promise<Section[]> {
     return createSection(body);
   }
 
