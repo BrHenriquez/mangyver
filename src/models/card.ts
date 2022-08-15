@@ -24,6 +24,9 @@ export class Card {
   @Column({ name: "Name" })
   name!: string;
 
+  @Column({ name: "SAPCode", nullable: true })
+  SAPCode!: string;
+
   @ManyToOne(type => Operation, operation => operation.id)
   operation!: Operation;
 

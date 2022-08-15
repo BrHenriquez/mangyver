@@ -87,7 +87,7 @@ export default class NoticeController {
   @Post("/external-notice-consumers")
   public async createNoticeThirdParties(
     @Body() body: INoticeThirdParties
-  )/* : Promise<Notice> */ {
+  ) {
     return createNoticeThirdParties(body);
   }
 
