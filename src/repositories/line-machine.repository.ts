@@ -19,30 +19,21 @@ export const getLineMachines = async (
 ): Promise<Array<LineMachine>> => {
   const repository = getRepository(LineMachine);
 
-  if (lineId) {
-    return repository.find({
-      // relations: ["line"],
-      // line: {
-      //   id: lineId
-      // },
-      where: {
-        line: {
-          id: lineId,
-        },
-        isActive: true,
-        ...(name && { name: Like(`%${name}%`) }),
-        ...(SAPCode && { SAPCode: Like(`%${SAPCode}%`) }),
-      },
-      order: {
-        name: "ASC",
-      },
-      skip: from,
-      take: top,
-      cache: true,
-    });
-  }
-
-  return repository.find({ order: { name: "ASC" }, where: { isActive: true } });
+  return repository.find({
+    relations: ["line"],
+    where: {
+      isActive: true,
+      ...(lineId && { line: lineId }),
+      ...(name && { name: Like(`%${name}%`) }),
+      ...(SAPCode && { SAPCode: Like(`%${SAPCode}%`) }),
+    },
+    order: {
+      name: "ASC",
+    },
+    skip: from,
+    take: top,
+    cache: true,
+  });
 };
 
 export const createLineMachine = async (
