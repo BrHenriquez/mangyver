@@ -21,14 +21,19 @@ export const getUsers = async (
   operationId?: string,
   skip?: number,
   take?: number
-): Promise<Array<User>> => {
+): Promise<{ data: User[]; count: number }> => {
   const userRepository = getRepository(User);
-  return userRepository.find({
+  const options = {
     relations: ["operation", "area", "line", "role"],
-    where: [{ operation: operationId, isActive: true }],
+    where: { operation: operationId, isActive: true },
     skip: skip,
     take: take,
-  });
+  };
+  const [data, count] = await Promise.all([
+    userRepository.find(options),
+    userRepository.count({ where: options.where }),
+  ]);
+  return { data, count };
 };
 
 export const createUser = async (payload: IUserPayload): Promise<User> => {

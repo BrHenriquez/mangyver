@@ -58,7 +58,7 @@ router.get("/", async (_req, res) => {
     Number(_req.query?.take)
   );
   const results = JSON.parse(JSON.stringify(response));
-  results.map((result: any) => {
+  results.data.map((result: any) => {
     result.label = result.name;
     result.filter = result.id;
   });

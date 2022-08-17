@@ -2628,10 +2628,23 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"items": {
-										"$ref": "#/components/schemas/User"
+									"properties": {
+										"count": {
+											"type": "number",
+											"format": "double"
+										},
+										"data": {
+											"items": {
+												"$ref": "#/components/schemas/User"
+											},
+											"type": "array"
+										}
 									},
-									"type": "array"
+									"required": [
+										"count",
+										"data"
+									],
+									"type": "object"
 								}
 							}
 						}

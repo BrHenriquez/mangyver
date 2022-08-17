@@ -17,7 +17,7 @@ export default class UserController {
     @Query() profile?: string,
     @Query() skip?: number,
     @Query() take?: number
-  ): Promise<Array<User>> {
+  ): Promise<{ data: User[]; count: number }> {
     return getUsers(profile, skip, take);
   }
 
