@@ -1,4 +1,5 @@
 /* eslint-disable */
+import axios from 'axios'
 import { error } from "console";
 import { getRepository } from "typeorm";
 import { Notification, OperationNumber, Deviation, Operation } from "../models";
@@ -15,6 +16,15 @@ export interface INotificationPayload {
   numPeople?: number;
   partialDate?: Date;
   endDate?: Date;
+}
+
+export interface IHorometroPayload {
+  centro: string;
+  equipo: string;
+  puntoMedida: string;
+  fecha: string;
+  hora: string;
+  valor: string;
 }
 
 export const getNotifications = async (
@@ -67,6 +77,19 @@ export const createNotification = async (
     ...notification,
     ...payload,
   });
+};
+
+export const horometro = async (
+  payload: IHorometroPayload
+): Promise<any> => {
+  const data = await axios.post('http://azuspo10d.modelo.gmodelo.com.mx:50000/RESTAdapter/Mangyver/PuntoMedida', payload, {
+    auth: {
+      username: 'PO_NODERED_MX',
+      password: 'Modelomx.19'
+    }
+  })
+
+  return { data, msg: 'saved correctaly' }
 };
 
 export const getNotification = async (

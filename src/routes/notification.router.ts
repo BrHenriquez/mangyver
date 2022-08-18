@@ -37,6 +37,20 @@ router.get("/", async (_req, res) => {
   return res.send(results);
 });
 
+router.post("/horometros/punto-medida", async (_req, res) => {
+  const controller = new NotificationController();
+
+  try {
+    const response = await controller.horometro(_req.body)
+  
+    const results = JSON.parse(JSON.stringify(response));
+    log.silly(results);
+    return res.send(results);
+  } catch (error) {
+    return res.send({ error, msg: 'error' });
+  }
+});
+
 router.post("/", async (req, res) => {
   const headers = req.headers;
   const token = headers.auth;

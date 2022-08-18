@@ -8,6 +8,8 @@ import {
   INotificationPayload,
   getNotification,
   destroyNoficicationById,
+  IHorometroPayload,
+  horometro,
 } from "../repositories/notification.repository";
 
 @Route("notifications")
@@ -61,6 +63,13 @@ export default class NotificationController {
     @Body() body: INotificationPayload
   ): Promise<Notification> {
     return createNotification(body);
+  }
+
+  @Post("/horometros/punto-medida")
+  public async horometro(
+    @Body() body: IHorometroPayload
+  ): Promise<any> {
+    return horometro(body);
   }
 
   @Get("/:id")
