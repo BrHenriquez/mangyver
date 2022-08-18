@@ -45,8 +45,8 @@ export class AssignedOrder {
   @Column({ name: "operations" })
   operations!: string;
 
-  @Column("simple-array")
-  orderStatus!: string[];
+  @Column({name: "orderStatus"})
+  orderStatus!: string;
 
   @Column({name: "status" })
   status!: boolean;
