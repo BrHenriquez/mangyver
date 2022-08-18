@@ -2,7 +2,7 @@
 import { Notification } from "./../models/notification";
 import { OperationNumber } from "./../models/operation-number";
 import { Deviation } from "./../models/deviation";
-import { Help, SubAreaMachine } from "../models";
+import { AssignedOrder, Help, SubAreaMachine } from "../models";
 import { ConnectionOptions } from "typeorm";
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -84,6 +84,7 @@ const config: ConnectionOptions = {
     ObjectParts,
     Symptom,
     Responsable,
+    AssignedOrder
   ],
   synchronize: true,
 };

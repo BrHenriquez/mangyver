@@ -36,6 +36,7 @@ import { Cause } from "./cause";
 import { Symptom } from "./symptom";
 import { ObjectParts } from "./object";
 import { Responsable } from "./responsable";
+import { AssignedOrder } from "./assigned-order.model";
 
 export {
   User,
@@ -76,4 +77,5 @@ export {
   ObjectParts,
   Symptom,
   Responsable,
+  AssignedOrder,
 };

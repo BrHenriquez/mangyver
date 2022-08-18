@@ -37,6 +37,7 @@ import objectRouter from "./object.router";
 import causeRouter from "./cause.router";
 import symptomRouter from "./symptom.router";
 import responsableRouter from "./responsable.router";
+import { assignedOrderRouter } from "./assigned-order.router";
 
 const router = express.Router();
 
@@ -82,5 +83,6 @@ router.use("/symptoms", [checkJwt], symptomRouter);
 router.use("/causes", [checkJwt], causeRouter);
 router.use("/objects", [checkJwt], objectRouter);
 router.use("/responsables", [checkJwt], responsableRouter);
+router.use("/assigned-order", [checkJwt], assignedOrderRouter);
 export default router;
 export { initRoute, metadata };
