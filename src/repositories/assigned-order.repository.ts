@@ -27,6 +27,11 @@ export const createAssignedOrder = async (data: AssignedOrder) => {
     }
 };
 
+export const getAssignedOrders = async (skip?: number, take?: number) => await getRepository(AssignedOrder).find({
+    skip,
+    take
+})
+
 export const getAssignedOrderById = async (orderNumber: string) => await getRepository(AssignedOrder).findOne({
     where: {
         orderNumber

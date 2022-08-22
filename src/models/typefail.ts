@@ -9,6 +9,7 @@ import {
 } from "typeorm";
 import { User } from "./user";
 import { Operation } from ".";
+import { Area } from "./area";
 
 @Entity("TypeFail")
 export class TypeFail {
@@ -32,6 +33,9 @@ export class TypeFail {
 
   @ManyToOne(type => Operation, operation => operation.id, { nullable: true })
   operation!: Operation;
+
+  @ManyToOne(type => Area, area => area.id, { nullable: true })
+  area!: Area;
 
   @ManyToOne(type => User, user => user.id)
   userUpdate!: User;
