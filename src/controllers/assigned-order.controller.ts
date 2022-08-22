@@ -2,7 +2,7 @@
 /* eslint-disable no-console */
 import { Request, Response } from "express";
 import { HTTP_STATUS_CODES } from "../constant/api/http-status-codes.constant";
-import { createAssignedOrder, getAssignedOrderById, removeAssignedOrderById, updateAssignedOrderRepository } from "../repositories/assigned-order.repository";
+import { createAssignedOrder, getAssignedOrderById, getAssignedOrders, removeAssignedOrderById, updateAssignedOrderRepository } from "../repositories/assigned-order.repository";
 
 export const addAssignedOrder = async (request: Request, response: Response) => {
     try {
@@ -16,6 +16,18 @@ export const addAssignedOrder = async (request: Request, response: Response) => 
         console.error(`Could not create assigned order - message: ${error.message}`);
         response.status(HTTP_STATUS_CODES.INTERNAL_SERVER).send({errorMessage: error.message});
         throw e;
+    }
+};
+
+export const fetchAssignedOrders = async (request: Request, response: Response) => {
+    const { skip, take } = request.query;
+    try {
+        const orders = await getAssignedOrders(Number(skip), Number(take));
+        response.status(HTTP_STATUS_CODES.OK).send({data: orders});
+    } catch (error: any) {
+        console.error(`Could not find assigned order - message: ${error.message}`);
+        response.status(HTTP_STATUS_CODES.NOT_FOUND).send({errorMessage: error.message});
+        throw error;
     }
 };
 

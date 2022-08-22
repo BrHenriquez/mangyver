@@ -18,6 +18,7 @@ export const getTypeFails = async (
   return repository.find({
     where: [{ operation: operationId, isActive: true }],
     order: { name: "ASC" },
+    loadRelationIds: true
   });
 };
 
