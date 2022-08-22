@@ -1,5 +1,5 @@
 /* eslint-disable */
-import express from "express";
+import express, { Request, Response } from "express";
 import NotificationController, { deleteNotificationById } from "../controllers/notification.controller";
 import { log } from "../config/logger";
 import UserInfo from "../middlewares/getUserFromToken";
@@ -9,6 +9,7 @@ import { createSapLog } from "../repositories/saplognotification.repository";
 import axios from "axios";
 import jwt_decode from "jwt-decode";
 import { getUser } from "../repositories/user.repository";
+import { deleteNotificationByIdValidator } from "./validators";
 
 const router = express.Router();
 
@@ -51,7 +52,7 @@ router.post("/horometros/punto-medida", async (_req, res) => {
   }
 });
 
-router.post("/", async (req, res) => {
+router.post("/", async (req: Request, res: Response) => {
   const headers = req.headers;
   const token = headers.auth;
   const decoded: object = jwt_decode(JSON.stringify(token));
@@ -118,6 +119,6 @@ router.get("/:id", async (req, res) => {
   return res.send(response);
 });
 
-router.delete('/:id/delete-by-id', [deleteNotificationById]);
+router.delete('/:id/delete-by-id', [deleteNotificationByIdValidator], [deleteNotificationById]);
 
 export default router;
