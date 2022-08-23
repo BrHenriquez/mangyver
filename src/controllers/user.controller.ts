@@ -16,9 +16,25 @@ export default class UserController {
   public async getUsers(
     @Query() profile?: string,
     @Query() skip?: number,
-    @Query() take?: number
+    @Query() take?: number,
+    @Query() name?: string,
+    @Query() email?: string,
+    @Query() SAPCode?: string,
+    @Query() SAPUser?: string,
+    @Query() areaId?: string,
+    @Query() lineId?: string
   ): Promise<{ data: User[]; count: number }> {
-    return getUsers(profile, skip, take);
+    return getUsers(
+      profile,
+      skip,
+      take,
+      name,
+      email,
+      SAPCode,
+      SAPUser,
+      areaId,
+      lineId
+    );
   }
 
   @Post("/")

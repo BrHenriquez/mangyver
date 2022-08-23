@@ -1,6 +1,6 @@
 /* eslint-disable */
 import { Line, Operation, Role } from "../models";
-import { getRepository } from "typeorm";
+import { getRepository, Like } from "typeorm";
 import { User } from "../models";
 import { Area } from "../models";
 export interface IUserPayload {
@@ -20,12 +20,27 @@ export interface IUserPayload {
 export const getUsers = async (
   operationId?: string,
   skip?: number,
-  take?: number
+  take?: number,
+  name?: string,
+  email?: string,
+  SAPCode?: string,
+  SAPUser?: string,
+  areaId?: string,
+  lineId?: string
 ): Promise<{ data: User[]; count: number }> => {
   const userRepository = getRepository(User);
   const options = {
     relations: ["operation", "area", "line", "role"],
-    where: { operation: operationId, isActive: true },
+    where: {
+      operation: operationId,
+      isActive: true,
+      ...(name && { name: Like(`%${name}%`) }),
+      ...(email && { email: Like(`%${email}%`) }),
+      ...(SAPCode && { SAPCode: Like(`%${SAPCode}%`) }),
+      ...(SAPUser && { SAPUser: Like(`%${SAPUser}%`) }),
+      ...(areaId && { area: areaId }),
+      ...(lineId && { line: lineId }),
+    },
     skip: skip,
     take: take,
   };
