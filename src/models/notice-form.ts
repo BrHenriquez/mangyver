@@ -1,6 +1,6 @@
 /* eslint-disable */
 import { Operation } from "./operation";
-import { User } from './user';
+import { User } from "./user";
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -8,7 +8,9 @@ import {
   CreateDateColumn,
   ManyToOne,
   UpdateDateColumn,
+  OneToMany,
 } from "typeorm";
+import { Section } from "./section";
 
 @Entity("FormNoticeMobile")
 export class Form {
@@ -30,4 +32,7 @@ export class Form {
 
   @UpdateDateColumn({ nullable: true, name: "UpdatedDate" })
   updatedDate!: Date;
+
+  @OneToMany(type => Section, section => section.form, { cascade: ["insert"] })
+  sections!: Section[];
 }

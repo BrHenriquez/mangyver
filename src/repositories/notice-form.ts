@@ -1,6 +1,11 @@
 /* eslint-disable */
+import { getConnection, getRepository } from "typeorm";
+import { Section, Form } from "../models";
 
-import { getConnection } from "typeorm";
+export interface IFormPayload {
+  name: string;
+  sections: Section[];
+}
 
 export const getForm = async (userId?: string) => {
   const connection = getConnection();
@@ -10,4 +15,12 @@ export const getForm = async (userId?: string) => {
 
   console.log(result);
   return result;
+};
+
+export const createForm = async (payload: IFormPayload): Promise<Form> => {
+  const repository = getRepository(Form);
+  const forms = repository.create(payload);
+  await repository.save(forms);
+
+  return forms;
 };
