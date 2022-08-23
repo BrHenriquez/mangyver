@@ -34,6 +34,7 @@ export default class NoticeController {
     @Query() filter: string,
     @Query() totalRows: boolean,
     @Query() isActive: boolean,
+    @Query() machineId: string,
     @Query() timezone: string,
   ): Promise<Array<Notice>> {
 
@@ -67,6 +68,7 @@ export default class NoticeController {
       filter,
       totalRows,
       isActive,
+      machineId,
       timezone
     );
     return tt;

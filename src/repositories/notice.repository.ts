@@ -118,6 +118,7 @@ export const getNotices = async (
   filter?: string | null,
   totalRows?: boolean,
   isActive?: boolean,
+  machineId?: string,
   timezone?: string
 ): Promise<Array<Notice>> => {
   console.log(
@@ -166,7 +167,9 @@ export const getNotices = async (
       isActive +
       ",@totalRows=" +
       totalRows +
-      ""
+      ",@machineId='" +
+      machineId +
+      "'"
   );
   //return repository.find({ relations: ['line', 'consecutive', 'cardType', 'priority', 'components', 'breakdown', 'failureType', 'affects', 'process']});
   return repository;
