@@ -3396,6 +3396,14 @@
 					},
 					{
 						"in": "query",
+						"name": "machineId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
 						"name": "timezone",
 						"required": true,
 						"schema": {
