@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { User } from './user';
+import { User } from "./user";
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -11,6 +11,7 @@ import {
   UpdateDateColumn,
 } from "typeorm";
 import { Field } from "./field";
+import { Form } from "./notice-form";
 
 @Entity("Section")
 export class Section {
@@ -20,7 +21,7 @@ export class Section {
   @Column({ name: "Name" })
   name!: string;
 
-  @OneToMany(type => Field, field => field.section, { cascade: ['insert'] })
+  @OneToMany(type => Field, field => field.section, { cascade: ["insert"] })
   fields!: Field[];
 
   @ManyToOne(type => User, user => user.id)
@@ -31,5 +32,8 @@ export class Section {
 
   @UpdateDateColumn({ nullable: true, name: "UpdatedDate" })
   updatedDate!: Date;
+
+  @ManyToOne(type => Form, form => form.id)
+  form!: Form;
 }
 /* eslint-disable */

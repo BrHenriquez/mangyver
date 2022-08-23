@@ -843,6 +843,9 @@
 					"operation": {
 						"$ref": "#/components/schemas/Operation"
 					},
+					"area": {
+						"$ref": "#/components/schemas/Area"
+					},
 					"userUpdate": {
 						"$ref": "#/components/schemas/User"
 					},
@@ -863,6 +866,7 @@
 					"shortName",
 					"activity",
 					"operation",
+					"area",
 					"userUpdate",
 					"created",
 					"updatedDate"
@@ -1790,6 +1794,9 @@
 					"updatedDate": {
 						"type": "string",
 						"format": "date-time"
+					},
+					"form": {
+						"$ref": "#/components/schemas/Form"
 					}
 				},
 				"required": [
@@ -1798,7 +1805,49 @@
 					"fields",
 					"userUpdate",
 					"created",
-					"updatedDate"
+					"updatedDate",
+					"form"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Form": {
+				"properties": {
+					"id": {
+						"type": "string"
+					},
+					"form": {
+						"type": "string"
+					},
+					"userUpdate": {
+						"$ref": "#/components/schemas/User"
+					},
+					"isActive": {
+						"type": "boolean"
+					},
+					"created": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"updatedDate": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"sections": {
+						"items": {
+							"$ref": "#/components/schemas/Section"
+						},
+						"type": "array"
+					}
+				},
+				"required": [
+					"id",
+					"form",
+					"userUpdate",
+					"isActive",
+					"created",
+					"updatedDate",
+					"sections"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -2536,6 +2585,25 @@
 					"url",
 					"operation",
 					"isActive"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"IFormPayload": {
+				"properties": {
+					"name": {
+						"type": "string"
+					},
+					"sections": {
+						"items": {
+							"$ref": "#/components/schemas/Section"
+						},
+						"type": "array"
+					}
+				},
+				"required": [
+					"name",
+					"sections"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -5763,6 +5831,36 @@
 						}
 					}
 				]
+			},
+			"post": {
+				"operationId": "CreateForm",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Form"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Process"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/IFormPayload"
+							}
+						}
+					}
+				}
 			}
 		},
 		"/objects": {
