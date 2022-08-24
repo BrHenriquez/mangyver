@@ -1,7 +1,8 @@
 {
   "compilerOptions": {
-    "target": "es6",
-    "module": "commonjs",
+    "target": "ES6",
+    "moduleResolution": "node",
+    "module": "CommonJS",
     "outDir": "./build",
     "strict": true,
     "sourceMap": true,
@@ -11,9 +12,23 @@
     "emitDecoratorMetadata": true,
     "baseUrl": "./",
     "paths": {
-      "test/*": ["test/*"]
-    }
+      //TODO: add path to imports
+      "*":[
+        "*",
+        "src/*",
+        "constant/*",
+        "controller/*",
+        "middlewares/*",
+        "models/*",
+        "repositories/*",
+        "routes/*",
+        "utils/*",
+      ],
+    },
   },
-  "include": [ "src/**/*", "src/repositories/.repository.ts"],
-  "exclude" : ["src/**/*.test.ts"]
+  "include": [
+      "src/**/*",
+      "src/repositories/.repository.ts"
+  ],
+  "exclude" : ["node_modules", "src/**/*.test.ts"],
 }

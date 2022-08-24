@@ -12,7 +12,7 @@ export const addAssignedOrder = async (request: Request, response: Response) => 
         const orderCreated = await createAssignedOrder(data);
         response.status(HTTP_STATUS_CODES.CREATED).send({data: orderCreated});
     } catch (e) {
-        const error = e as any
+        const error = e as any;
         console.error(`Could not create assigned order - message: ${error.message}`);
         response.status(HTTP_STATUS_CODES.INTERNAL_SERVER).send({errorMessage: error.message});
         throw e;

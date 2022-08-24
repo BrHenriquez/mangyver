@@ -1,1 +1,1 @@
-export * from './delete-notification-by-id.validator'
+export * from "./delete-notification-by-id.validator";

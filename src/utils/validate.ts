@@ -1,14 +1,9 @@
 import {
     NextFunction, Request, Response
-} from 'express';
-import { Schema } from 'joi';
+} from "express";
+import { Schema } from "joi";
 
-export const validateRequest = (
-    req: Request,
-    res: Response,
-    next: NextFunction,
-    schema: Schema
-) => {
+export const validateRequest = (req: Request, res: Response, next: NextFunction, schema: Schema) => {
     const options = {
         abortEarly: false, // include all errors
         allowUnknown: true, // ignore unknown props
@@ -22,7 +17,7 @@ export const validateRequest = (
     if (error) {
         res.status(412)
             .send({
-                message: 'validation_errors',
+                message: "validation_errors",
                 errors: error.details.map(detail => ({
                     message: detail.message,
                     field: detail.path[0],

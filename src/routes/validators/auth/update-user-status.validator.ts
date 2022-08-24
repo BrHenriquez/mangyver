@@ -1,8 +1,8 @@
 import {
     NextFunction, Request, Response
-} from 'express';
-import Joi from 'joi';
-import { validateRequest } from 'src/utils/validate';
+} from "express";
+import Joi from "joi";
+import { validateRequest } from "../../../utils/validate";
 
 export const updateUserAuthValidator = (req: Request, res: Response, next: NextFunction) => {
     const schema = Joi.object({

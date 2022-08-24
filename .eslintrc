@@ -8,6 +8,27 @@
   ],
   "rules": {
     "no-unused-vars": 2,
-    "no-console": 1
+    "no-console": 0,
+    "brace-style": [
+      2,
+      "1tbs",
+      {
+        "allowSingleLine": true
+      }
+    ],
+    "quotes": ["error", "double"],
+    "semi": ["error", "always"],
+    "func-style": [
+      2,
+      "expression",
+      {
+        "allowArrowFunctions": true
+      }
+    ],
+    "indent": ["error", 4, { "SwitchCase": 1 }],
+    "comma-spacing": ["error", {
+      "before": false,
+      "after": true
+    }]
   }
 }

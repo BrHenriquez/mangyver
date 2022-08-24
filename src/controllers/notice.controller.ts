@@ -1,4 +1,4 @@
-import { destroyNoticeById, getNoticesByMachineId } from './../repositories/notice.repository'
+import { destroyNoticeById, getNoticesByMachineId } from "./../repositories/notice.repository";
 /* eslint-disable */
 import { profile } from "console";
 import { Get, Route, Tags, Post, Body, Path, Query, Put } from "tsoa";

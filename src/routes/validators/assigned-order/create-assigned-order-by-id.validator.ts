@@ -1,14 +1,11 @@
 import {
     NextFunction, Request, Response
-} from 'express';
-import Joi from 'joi';
-import { validateRequest } from 'src/utils/validate';
+} from "express";
+import Joi from "joi";
+import { validateRequest } from "../../../utils/validate";
 
-export const updateAssignedOrderByIdValidator = (req: Request, res: Response, next: NextFunction) => {
+export const createAssignedOrderByIdValidator = (req: Request, res: Response, next: NextFunction) => {
     const schema = Joi.object({
-        params: Joi.object({
-            id: Joi.number().optional(),
-        }),
         body: Joi.object({
             id: Joi.number().optional(),
             orderNumber: Joi.string().optional(),

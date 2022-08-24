@@ -1,0 +1,7 @@
+{
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint", //Have to install ESLint from extensions.
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": true
+    },
+    "editor.formatOnSave": true
+  }

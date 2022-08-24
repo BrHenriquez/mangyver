@@ -5,11 +5,7 @@ import passwordValidator from "password-validator";
 import { log } from "../config/logger";
 import jwt_decode from "jwt-decode";
 import { getUser } from "../repositories/user.repository";
-import {
-  getUserByIdValidator,
-  getUsersValidator,
-} from "./validators/user/fetch-users.validator";
-import { updateUserAuthValidator } from "./validators/user/update-user-status.validator";
+import { updateUserAuthValidator, getUsersValidator, getUserByIdValidator } from "./validators";
 
 const router = express.Router();
 

@@ -7,7 +7,6 @@ import { getRepository } from "typeorm";
 
 import { User, Session } from "../models";
 import secret from "../config/jwt.secret";
-import { ILoginPayload } from "src/repositories/login.repository";
 import {
   createSession,
   ISessionPayload,
